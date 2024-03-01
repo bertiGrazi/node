@@ -10,7 +10,7 @@ interface CheckInResponse {
   checkIn: CheckIn
 }
 
-export class GetUserProfileUseCase {
+export class CheckInUseCase {
   constructor(
    private checkInsRepository: CheckInRepository
   ) {}
