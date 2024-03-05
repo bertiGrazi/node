@@ -34,15 +34,17 @@ export class CheckInUseCase {
       throw new ResourceNotFoundError()
     }
 
-    // TODO: calculate distance between user and gym
     const distance = getDistanceBetweenCoordinates(
-      { latitude: userLatitude, longitude: userLatitude },
-      { latitude: gym.latitude.toNumber(), longitude: gym.longitude.toNumber() }
+      { latitude: userLatitude, longitude: userLongitude },
+      { 
+        latitude: gym.latitude.toNumber(), 
+        longitude: gym.longitude.toNumber() 
+      }
     )
     
-    const MAX_DISTANCE = 0.1
+    const MAX_DISTANCE_IN_KILOMETEERS = 0.1
     
-    if (distance > 0.1) {
+    if (distance > MAX_DISTANCE_IN_KILOMETEERS) {
       throw new Error()
     }
 

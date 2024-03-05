@@ -37,8 +37,8 @@ describe('Check in Use Case', () => {
     const { checkIn } = await sut.execute({
       gymId: 'gym-01',
       userId: 'user-01',
-      userLatitude: 0,
-      userLongitude: 0
+      userLatitude: -23.4302171,
+      userLongitude: -46.5461471
     })
 
     console.log(checkIn.created_at)
@@ -52,15 +52,15 @@ describe('Check in Use Case', () => {
     await sut.execute({
       gymId: 'gym-01',
       userId: 'user-01',
-      userLatitude: 0,
-      userLongitude: 0
+      userLatitude: -23.4302171,
+      userLongitude: -46.5461471
     })
 
     expect(() => sut.execute({
       gymId: 'gym-01',
       userId: 'user-01',
-      userLatitude: 0,
-      userLongitude: 0
+      userLatitude: -23.4302171,
+      userLongitude: -46.5461471
     })).rejects.toBeInstanceOf(Error)
   })
 
@@ -70,8 +70,8 @@ describe('Check in Use Case', () => {
     await sut.execute({
       gymId: 'gym-01',
       userId: 'user-01',
-      userLatitude: 0,
-      userLongitude: 0
+      userLatitude: -23.4302171,
+      userLongitude: -46.5461471
     })
 
     vi.setSystemTime(new Date(2022, 0, 21, 8, 0, 0))
@@ -79,8 +79,8 @@ describe('Check in Use Case', () => {
     const { checkIn } = await sut.execute({
       gymId: 'gym-01',
       userId: 'user-01',
-      userLatitude: 0,
-      userLongitude: 0
+      userLatitude: -23.4302171,
+      userLongitude: -46.5461471
     })
 
     expect(checkIn.id).toEqual(expect.any(String))
@@ -88,19 +88,20 @@ describe('Check in Use Case', () => {
 
   it('should not be able to check in on distant gym', async () => {
     gymRepository.itens.push({
-      id: 'gym-01',
+      id: 'gym-02',
       title: 'Javascript Gym',
       description: '',
       phone: '',
-      latitude: new Decimal(-23.462341),
+      latitude: new Decimal(-23.4623411),
       longitude: new Decimal(-46.5660819),
     })
 
     await expect(() => sut.execute({
-      gymId: 'gym-01',
+      gymId: 'gym-02',
       userId: 'user-01',
       userLatitude: -23.4302171,
-      userLongitude: -46.5461471
-    })).rejects.toBeInstanceOf(Error)
+      userLongitude: -46.5461471,
+    }),
+    ).rejects.toBeInstanceOf(Error)
   })
 })
