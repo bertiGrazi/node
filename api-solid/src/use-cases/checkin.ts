@@ -3,6 +3,7 @@ import { CheckInRepository } from "@/repositories/check-ins-repository";
 import { date } from "zod";
 import { GymsRepositorys } from "@/repositories/gyms-repository";
 import { ResourceNotFoundError } from "./erros/resouce-not-found-error";
+import { getDistanceBetweenCoordinates } from "@/utils/get-distance-between-coordinates";
 
 interface CheckInRequest {
   userId: string, 
@@ -23,7 +24,9 @@ export class CheckInUseCase {
 
   async execute({ 
     userId,
-    gymId
+    gymId,
+    userLatitude,
+    userLongitude
   }: CheckInRequest): Promise<CheckInResponse> {
     const gym = await this.gymsRepository.findById(gymId)
 
@@ -32,7 +35,17 @@ export class CheckInUseCase {
     }
 
     // TODO: calculate distance between user and gym
+    const distance = getDistanceBetweenCoordinates(
+      { latitude: userLatitude, longitude: userLatitude },
+      { latitude: gym.latitude.toNumber(), longitude: gym.longitude.toNumber() }
+    )
     
+    const MAX_DISTANCE = 0.1
+    
+    if (distance > 0.1) {
+      throw new Error()
+    }
+
     const checkInOnSameDay = await this.checkInsRepository.findByUserIdOnDate(
       userId, 
       new Date(),
