@@ -17,7 +17,7 @@ interface CreateGymUseCaseResponse {
   gym: Gym
 }
 
-export class RegisterUserCase {
+export class CreateGymUseCase {
   constructor(
     private gymsRepository: GymsRepositorys
   ) {}
